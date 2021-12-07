@@ -2,48 +2,48 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MeshLabwork2_Scene2 : MonoBehaviour
 {
-    public float scale = 1.0f;
-    public float speed = 1.0f;
-    private bool recalculateNormals = false;
 
-    private Vector3[] baseVertices;
-    private Vector3[] vertices;
-
+    public float scale;
+    public float waveSpeed;
+    public float waveHeight;
+    public Slider slide;
+ 
     private void Update()
     {
         CalcNoise();
     }
 
+    public void Start()
+    {
+        speedwagon();
+    }
+
     void CalcNoise()
     {
-        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        MeshFilter mf = GetComponent<MeshFilter>();
+        Vector3[] verts = mf.mesh.vertices;
 
-        if (baseVertices == null) baseVertices = mesh.vertices;
-
-        vertices = new Vector3[baseVertices.Length];
-
-        float timex = Time.time * speed + 5f;
-        float timey = Time.time * speed + 3f;
-        float timez = Time.time * speed + 0.3f;
-
-        for (int i = 0; i > vertices.Length; i++)
+        for (int i = 0; i < verts.Length; i++)
         {
-            Vector3 vertex = baseVertices[i];
-            vertex.x += Mathf.PerlinNoise(timex + vertex.x, timex + vertex.y) * scale;
-            vertex.y += Mathf.PerlinNoise(timey + vertex.x, timey + vertex.y) * scale;
-            vertex.z += Mathf.PerlinNoise(timez + vertex.y, timez + vertex.y) * scale;
-            vertices[i] = vertex;
+            float px = (verts[1].x * scale) + (Time.time * waveSpeed);
+            float pz = (verts[1].z * scale) + (Time.time * waveSpeed);
 
+            verts[1].y = Mathf.PerlinNoise(px, pz) * waveHeight;
         }
 
-        mesh.vertices = vertices;
-        if (recalculateNormals)
-        {
-            mesh.RecalculateNormals();
-            mesh.RecalculateNormals();
-        }
+        mf.mesh.vertices = verts;
+        mf.mesh.RecalculateNormals();
+        mf.mesh.RecalculateBounds();
     }
+
+  public void speedwagon()
+  {
+      waveSpeed = slide.value * 100f;
+  }
+
 }
+
