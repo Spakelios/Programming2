@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
+
 
 public class PhysicsExample3_PhysicsMaterial1 : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class PhysicsExample3_PhysicsMaterial1 : MonoBehaviour
 
         else if (col.gameObject.name == "cube")
         {
-            col.gameObject.GetComponent<Renderer>().material.color = Color.cyan;
+            col.gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
