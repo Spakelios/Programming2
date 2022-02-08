@@ -14,17 +14,29 @@ public class AnimationStateController : MonoBehaviour
 
     void Update()
     {
+        bool isRunning = anim.GetBool("isRunning");
         bool isWalking = anim.GetBool("isWalking");
         bool fowardPressed = Input.GetKey("w");
+        bool RunToggled = Input.GetKey("q");
         
         if (!isWalking && fowardPressed)
         {
             anim.SetBool("isWalking", true);
         }
 
-        if (isWalking && fowardPressed)
+        else if (isWalking && fowardPressed)
         {
             anim.SetBool("isWalking", false);
+        }
+
+        if (!isRunning && RunToggled)
+        {
+            anim.SetBool("isRunning", true);
+        }
+       
+        else if (isRunning && RunToggled)
+        {
+            anim.SetBool("isRunning", false);
         }
     }
 }
